@@ -41,11 +41,12 @@ It is known as : closed knight's tour
 
 ### Task 3
 There is a row of n security switches protecting a military installation entrance. The switches can be manipulated as follows:
-    (i)The rightmost switch may be turned on or off at will.
+
+(i)The rightmost switch may be turned on or off at will.
     
-    (ii)Any other switch may be turned on or off only if the switch to its immediate right is on and all the other switches to its right, if any, are off.
+(ii)Any other switch may be turned on or off only if the switch to its immediate right is on and all the other switches to its right, if any, are off.
     
-    (iii)Only one switch may be toggled at a time.
+(iii)Only one switch may be toggled at a time.
     
 Design a Dynamic Programing algorithm to turn off all the switches, which are initially all on, in the minimum number of moves. (Toggling one switch is considered one move.) Also find the minimum number of moves.
 
