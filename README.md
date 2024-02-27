@@ -1,3 +1,13 @@
+## What is Required in every Task?
+1. Detailed assumptions.
+2.Problem description.
+3.Detailed solution including the pseudo-code and the description of the steps of your solution.
+4.Complexity analysis for the algorithm.
+5.A comparison between your algorithm and at least one other technique that can be used to solve the problem.
+6.Sample output of the solution for the different cases of the technique with proper description for the output.
+7.Conclusion.
+
+
 ### Task 1
 Devise an algorithm for the following task: given a 2n × 2n (n > 1) board with one missing square, tile it with right trominoes of only three colors so that no pair of trominoes that share an edge have the same color. Recall that the right tromino is an L-shaped tile formed by three adjacent squares.
 Use dynamic programing to solve this problem.
