@@ -41,7 +41,6 @@ It is known as : closed knight's tour
 
 ### Task 3
 There is a row of n security switches protecting a military installation entrance. The switches can be manipulated as follows:
-
     (i)The rightmost switch may be turned on or off at will.
     
     (ii)Any other switch may be turned on or off only if the switch to its immediate right is on and all the other switches to its right, if any, are off.
