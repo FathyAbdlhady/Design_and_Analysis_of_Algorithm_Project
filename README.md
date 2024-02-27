@@ -1,7 +1,7 @@
 ## What is Required in every Task?
-1. Detailed assumptions.
+1. Problem description.
    
-2. Problem description.
+2. Detailed assumptions.
 
 3. Detailed solution including the pseudo-code and the description of the steps of your solution.
    
