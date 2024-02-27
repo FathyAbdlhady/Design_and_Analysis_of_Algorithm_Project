@@ -57,6 +57,7 @@ Design a Dynamic Programing algorithm to turn off all the switches, which are in
 
 ### Task 4
 There are eight disks of different sizes and four pegs. Initially, all the disks are on the first peg in order of size, the largest on the bottom and the smallest on the top.
+
 Use divide and conquer method to transfer all the disks to another peg by a sequence of moves. Only one disk can be moved at a time, and it is forbidden to place a larger disk on top of a smaller one.
 
 Does the Dynamic Programing algorithm can solve the puzzle in 33 moves? If not then design an algorithm that solves the puzzle in 33 moves.
@@ -71,7 +72,9 @@ it is a tower of hanoi modified problem
 
 
 ### Task 5
-There are n coins placed in a row. The goal is to form n/2 pairs of them by a sequence of moves. On the first move a single coin has to jump over one coin adjacent to it, on the second move a single coin has to jump over two adjacent coins, on the third move a single coin has to jump over three adjacent coins, and so on, until after n/2 moves n/2 coin pairs are formed. (On each move, a coin can jump right or left but it has to land on a single coin. Jumping over a coin pair counts as jumping over two coins. Any empty space between adjacent coins is ignored.) Determine all the values of n for which the problem has a solution and design an algorithm that solves it in the minimum number of moves for those n’s.
+There are n coins placed in a row. The goal is to form n/2 pairs of them by a sequence of moves. On the first move a single coin has to jump over one coin adjacent to it, on the second move a single coin has to jump over two adjacent coins, on the third move a single coin has to jump over three adjacent coins, and so on, until after n/2 moves n/2 coin pairs are formed. (On each move, a coin can jump right or left but it has to land on a single coin. Jumping over a coin pair counts as jumping over two coins. Any empty space between adjacent coins is ignored.) 
+
+Determine all the values of n for which the problem has a solution and design an algorithm that solves it in the minimum number of moves for those n’s.
 
 Design greedy algorithm to find the minimum number of moves.
 
