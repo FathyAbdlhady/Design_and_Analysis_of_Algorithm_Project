@@ -1,0 +1,37 @@
+Problem description:
+Is it possible for a chess knight to visit all the cells of an 8 × 8 chessboard exactly once, 
+ending at a cell one knight’s move away from the starting cell? (Such a tour is called closed or re-entrant. Note that a cell is considered visited only when the knight lands on it, not just passes over it on its move.)
+If it is possible design a greedy algorithm to find the minimum number of moves the chess knight needs.
+
+Detailed assumptions:
+
+
+
+
+
+
+Detailed solution including the pseudo-code and the description of the steps of your solution:
+
+
+
+
+
+Complexity analysis for the algorithm:
+
+
+
+
+
+
+A comparison between your algorithm and at least one other technique that can be used to solve the problem:
+
+
+
+
+
+Sample output of the solution for the different cases of the technique with proper description for the output:
+
+
+
+
+Conclusion:

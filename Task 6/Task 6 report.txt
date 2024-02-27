@@ -1,0 +1,40 @@
+Problem description:
+There are six knights on a 3 × 4 chessboard: the three white knights are at the bottom row, 
+and the three black knights are at the top row.
+Design an iterative improvement algorithm to exchange the knights to get the position shown on the right of the figure in the minimum number of knights moves, 
+not allowing more than one knight on a square at any time.
+
+
+
+Detailed assumptions:
+
+
+
+
+
+
+Detailed solution including the pseudo-code and the description of the steps of your solution:
+
+
+
+
+
+Complexity analysis for the algorithm:
+
+
+
+
+
+
+A comparison between your algorithm and at least one other technique that can be used to solve the problem:
+
+
+
+
+
+Sample output of the solution for the different cases of the technique with proper description for the output:
+
+
+
+
+Conclusion:
