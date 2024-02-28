@@ -9,9 +9,9 @@
 
 5. Code in java
  
-6. A comparison between your algorithm and at least one other technique that can be used to solve the problem.
- 
-7. Sample output of the solution for the different cases of the technique with proper description for the output.
+6. Sample output of the solution for the different cases of the technique with proper description for the output.
+
+7. A comparison between your algorithm and at least one other technique that can be used to solve the problem.
  
 8. Conclusion.
 
