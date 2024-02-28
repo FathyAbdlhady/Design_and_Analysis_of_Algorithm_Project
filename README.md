@@ -15,7 +15,19 @@
  
 8. Conclusion.
 
+### Teams
 
+Team 1 : 1) Omar Saleh.  2) Youssef Ashmawy.  3) Omar Gamal
+
+Team 1 Tasks : Task 2 and 3
+
+Team 2 : 1)Ahmed Mahfouz. 2)Mohamed Mostafa  3) Abdallah Mohamed
+
+Team 2 Tasks : Task 5 and 6 
+
+Team 3 : 1) Fathy Abdlhady. 2) Youssef Shawky. 3) Mohamed Ayman
+
+Team 3 Tasks : Task 8 and 1
 
 ### Task 1
 Devise an algorithm for the following task: given a 2n × 2n (n > 1) board with one missing square, tile it with right trominoes of only three colors so that no pair of trominoes that share an edge have the same color. Recall that the right tromino is an L-shaped tile formed by three adjacent squares.
