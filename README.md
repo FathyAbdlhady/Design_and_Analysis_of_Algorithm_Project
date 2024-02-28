@@ -15,7 +15,7 @@
  
 8. Conclusion.
 
-### Teams
+### Teams and Tasks
 
 Team 1 : 1) Omar Saleh.  2) Youssef Ashmawy.  3) Omar Gamal
 
@@ -36,7 +36,7 @@ Use dynamic programing to solve this problem.
 
 #### Problem 119 in Algorithmic Puzzles book
 
-#### Working on it: 
+#### Working on it: 1) Mohamed Ayman. 2) Youssef Shawky. 3) Fathy Abdlhady
 
 
 ### Task 2
@@ -48,7 +48,7 @@ It is known as : closed knight's tour
 
 #### Problem 127 in Algorithmic Puzzles book
 
-#### Working on it: 
+#### Working on it: 1) Omar Saleh.  2) Youssef Ashmawy
 
 
 ### Task 3
@@ -64,7 +64,7 @@ Design a Dynamic Programing algorithm to turn off all the switches, which are in
 
 #### Problem 128 in Algorithmic Puzzles book
 
-#### Working on it: 
+#### Working on it: 1)Omar Gamal.  2) Youssef Ashmawy. 3) Omar Saleh.
 
 
 ### Task 4
@@ -92,7 +92,7 @@ Design greedy algorithm to find the minimum number of moves.
 
 #### Problem 137 in Algorithmic Puzzles book
 
-#### Working on it: 
+#### Working on it: 1) Abdallah Mohamed  2)Ahmed Mahfouz. 3)Mohamed Mostafa
 
 
 ### Task 6
@@ -104,7 +104,7 @@ known as: guarini's problem
 
 #### Problem 118 in Algorithmic Puzzles book
 
-#### Working on it: 
+#### Working on it: 1)Ahmed Mahfouz. 2)Mohamed Mostafa
 
 
 ### Task 7
@@ -117,6 +117,7 @@ Design a Dynamic Programing algorithm that guarantees hitting the target.
 #### Working on it: 
 
 
+
 ### Task 8
 If you have 50 boxes that contains 50 pieces of metal all of the same known weight. one of these boxes contains fake metal pieces that weigh 1 kilogram less than the pieces in the rest of the boxes. 
 
@@ -124,6 +125,6 @@ You can use a digital scale only once to find this fake box.
 
 Design a brute force algorithm to solve this problem.
 
-#### Working on it: 
+#### Working on it: 1) Fathy Abdlhady. 2) Youssef Shawky
 
 
