@@ -15,7 +15,7 @@
  
 8. Conclusion.
 
-### Teams and Tasks
+### Teams and Tasks and Deadlines
 
 Team 1 : 1) Omar Saleh.  2) Youssef Ashmawy.  3) Omar Gamal
 
@@ -33,6 +33,10 @@ Team 4 : 1)Mark Ramy. 2) Heba Maher
 
 Team 4 Tasks : Task 4
 
+#### Tasks 2 and 6 and 8 deadline : 8/3
+
+#### Tasks 3 and 5 and 1 deadline : 16/3
+
 ### Task 1
 Devise an algorithm for the following task: given a 2n × 2n (n > 1) board with one missing square, tile it with right trominoes of only three colors so that no pair of trominoes that share an edge have the same color. Recall that the right tromino is an L-shaped tile formed by three adjacent squares.
 
@@ -42,6 +46,7 @@ Use dynamic programing to solve this problem.
 
 #### Working on it: 1) Mohamed Ayman. 2) Youssef Shawky. 3) Fathy Abdlhady
 
+#### Deadline : 16/3
 
 ### Task 2
 Is it possible for a chess knight to visit all the cells of an 8 × 8 chessboard exactly once, ending at a cell one knight’s move away from the starting cell? (Such a tour is called closed or re-entrant. Note that a cell is considered visited only when the knight lands on it, not just passes over it on its move.)
@@ -54,6 +59,7 @@ It is known as : closed knight's tour
 
 #### Working on it: 1) Omar Saleh.  2) Youssef Ashmawy
 
+#### Deadline : 8/3
 
 ### Task 3
 There is a row of n security switches protecting a military installation entrance. The switches can be manipulated as follows:
@@ -70,6 +76,7 @@ Design a Dynamic Programing algorithm to turn off all the switches, which are in
 
 #### Working on it: 1)Omar Gamal.  2) Youssef Ashmawy. 3) Omar Saleh.
 
+#### Deadline : 16/3
 
 ### Task 4
 There are eight disks of different sizes and four pegs. Initially, all the disks are on the first peg in order of size, the largest on the bottom and the smallest on the top.
@@ -86,6 +93,7 @@ it is a tower of hanoi modified problem
 
 #### Working on it: 1)Mark Ramy. 2) Heba Maher
 
+#### Deadline : 9/3
 
 ### Task 5
 There are n coins placed in a row. The goal is to form n/2 pairs of them by a sequence of moves. On the first move a single coin has to jump over one coin adjacent to it, on the second move a single coin has to jump over two adjacent coins, on the third move a single coin has to jump over three adjacent coins, and so on, until after n/2 moves n/2 coin pairs are formed. (On each move, a coin can jump right or left but it has to land on a single coin. Jumping over a coin pair counts as jumping over two coins. Any empty space between adjacent coins is ignored.) 
@@ -98,6 +106,7 @@ Design greedy algorithm to find the minimum number of moves.
 
 #### Working on it: 1) Abdallah Mohamed  2)Ahmed Mahfouz. 3)Mohamed Mostafa
 
+#### Deadline : 16/3
 
 ### Task 6
 There are six knights on a 3 × 4 chessboard: the three white knights are at the bottom row, and the three black knights are at the top row.
@@ -110,6 +119,7 @@ known as: guarini's problem
 
 #### Working on it: 1)Ahmed Mahfouz. 2)Mohamed Mostafa
 
+#### Deadline : 8/3
 
 ### Task 7
 A computer game has a shooter and a moving target. The shooter can hit any of n > 1 hiding spot located along a straight line in which the target can hide. The shooter can never see the target; all he knows is that the target moves to an adjacent hiding spot between every two consecutive shots. 
@@ -131,4 +141,4 @@ Design a brute force algorithm to solve this problem.
 
 #### Working on it: 1) Fathy Abdlhady. 2) Youssef Shawky
 
-
+#### Deadline : 8/3
