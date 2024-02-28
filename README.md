@@ -37,6 +37,8 @@ Team 4 Tasks : Task 4
 
 #### Tasks 3 and 5 and 1 deadline : 16/3
 
+#### Task 4 Deadline : 9/3
+
 ### Task 1
 Devise an algorithm for the following task: given a 2n × 2n (n > 1) board with one missing square, tile it with right trominoes of only three colors so that no pair of trominoes that share an edge have the same color. Recall that the right tromino is an L-shaped tile formed by three adjacent squares.
 
