@@ -5,7 +5,6 @@
 #include <list>
 #include <queue>
 #include <bits/stdc++.h>
-
 using namespace std;
 #define COLS 3
 #define ROWS 4
@@ -29,7 +28,7 @@ int calculateHeuristic(const vector<vector<int>> &board);
 void bestFirstSearch(vector<vector<int>> &initialState);
 bool isGoalState(const vector<vector<int>> &board);
 vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &board);
-bool isEmpty(const vector<vector<int>> &board, int x, int y);
+bool isEmptyAndWithinLimits(const vector<vector<int>> &board, int x, int y);
 
 class State
 {
@@ -84,15 +83,14 @@ int main()
 
 void printBoard(const vector<vector<int>> &board)
 {
-
     for (int i = 0; i < ROWS; i++)
     {
         cout << "\n {";
         for (int j = 0; j < COLS; j++)
         {
-            if (i == BLACK)
+            if (board[i][j] == BLACK)
                 cout << 'B' << " ";
-            else if (i == WHITE)
+            else if (board[i][j] == WHITE)
                 cout << 'W' << " ";
             else
                 cout << '.' << " ";
@@ -111,7 +109,7 @@ int calculateHeuristic(const vector<vector<int>> &board)
         {
             if (board[i][j] != 0) // Ignore empty squares
             {
-                if ((i == 0 && board[i][j] == WHITE) || i == ROWS && board[i][j] == BLACK)
+                if ((i == 0 && board[i][j] == WHITE) || ((i == ROWS-1) && board[i][j] == BLACK))
                 {
                     continue;
                 }
@@ -128,21 +126,21 @@ int calculateHeuristic(const vector<vector<int>> &board)
 //* Function to check if the given coordinates are within the board limits
 bool withinLimits(int x, int y)
 {
-    return ((x >= 0 && y >= 0) && (x < COLS && y < ROWS));
-}
+    return ((x >= 0 && y >= 0) && (x < ROWS && y < COLS));
+}   //No problems ✅
 
 //* Checks whether a square is valid and empty or not
-bool isEmpty(const vector<vector<int>> &board, int x, int y)
+bool isEmptyAndWithinLimits(const vector<vector<int>> &board, int x, int y)
 {
     return (withinLimits(x, y)) && (board[x][y] == 0);
-}
+}         //No problems ✅
 
 bool isGoalState(const vector<vector<int>> &board)
 {
     if ((board[0][0] == WHITE && board[0][1] == WHITE && board[0][2] == WHITE) && (board[3][0] == BLACK && board[3][1] == BLACK && board[3][2] == BLACK))
         return true;
     return false;
-}
+}  //No problems ✅
 
 vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>>& board)
 {
@@ -150,21 +148,14 @@ vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>>& b
     vector<pair<int, int>> directions = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
     for (auto &dir : directions)
     {
-        int move = 0;
         int newX = x + dir.first;
         int newY = y + dir.second;
-        if (isEmpty(board, newX, newY))
-        {
-            if (move > 16)
-            {
-                return vector<pair<int, int>>();
-            }
-            move++;
+        if (isEmptyAndWithinLimits(board, newX, newY))
             moves.push_back({newX, newY});
-        }
+
     }
     return moves;
-}
+} //No problems ✅
 
 // Best-First Search algorithm
 void bestFirstSearch(vector<vector<int>> &initialState)
