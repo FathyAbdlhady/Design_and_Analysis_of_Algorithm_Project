@@ -10,18 +10,6 @@ using namespace std;
 #define ROWS 4
 #define BLACK -1
 #define WHITE 1
-struct VectorVectorHash {
-    size_t operator()(const std::vector<std::vector<int>>& vec) const {
-        size_t hash = 0;
-        for (const auto& subvec : vec) {
-            for (int num : subvec) {
-                // Combine hash with the hash of each element
-                hash ^= std::hash<int>{}(num) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-            }
-        }
-        return hash;
-    }
-};
 
 void printBoard(const vector<vector<int>> &board);
 int calculateHeuristic(const vector<vector<int>> &board);
@@ -30,11 +18,28 @@ bool isGoalState(const vector<vector<int>> &board);
 vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &board);
 bool isEmptyAndWithinLimits(const vector<vector<int>> &board, int x, int y);
 
+struct VectorVectorHash
+{
+    size_t operator()(const vector<vector<int>> &vec) const
+    {
+        size_t hash = 0;
+        for (const auto &subvec : vec)
+        {
+            for (int num : subvec)
+            {
+                // Combine hash with the hash of each element
+                hash ^= std::hash<int>{}(num) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+            }
+        }
+        return hash;
+    }
+};
+
 class State
 {
 public:
     vector<vector<int>> board;
-    int cost = 0;          // Cost of reaching this state
+    int cost = 0; // Cost of reaching this state
     // string path;               // Path to reach this state
     int heuristic;        // Heuristic value for best-first search
     int moves;            // Total number of moves
@@ -54,19 +59,43 @@ public:
             printBoard(path[i]->board);
         }
     }
-
+};
+class Path
+{
+public:
+    vector<State> path;
+    Path(State s)
+    {
+        path.push_back(s);
+    }
+    void push(State s)
+    {
+        path.push_back(s);
+    }
+    void printPath()
+    {
+        for (int i = 0; i < path.size(); i++)
+        {
+            printBoard(path[i].board);
+        }
+    }
+    bool operator<(const Path &other) const
+    {
+        return path[path.size()-1].heuristic > other.path[other.path.size()-1].heuristic;
+    }
 };
 
 int main()
 {
     srand(time(0));
     vector<vector<int>> initialState = {
-            {BLACK, BLACK, BLACK},
-            {0, 0, 0},
-            {0, 0, 0},
-            {WHITE, WHITE, WHITE}};
+        {BLACK, BLACK, BLACK},
+        {0, 0, 0},
+        {0, 0, 0},
+        {WHITE, WHITE, WHITE}};
 
-    bestFirstSearch(initialState);
+    // bestFirstSearch(initialState);
+    
 
     // std::vector<std::vector<int>> graph = {
     //     {5},
@@ -109,7 +138,7 @@ int calculateHeuristic(const vector<vector<int>> &board)
         {
             if (board[i][j] != 0) // Ignore empty squares
             {
-                if ((i == 0 && board[i][j] == WHITE) || ((i == ROWS-1) && board[i][j] == BLACK))
+                if ((i == 0 && board[i][j] == WHITE) || ((i == ROWS - 1) && board[i][j] == BLACK))
                 {
                     continue;
                 }
@@ -127,22 +156,25 @@ int calculateHeuristic(const vector<vector<int>> &board)
 bool withinLimits(int x, int y)
 {
     return ((x >= 0 && y >= 0) && (x < ROWS && y < COLS));
-}   //No problems ✅
+}
+// No problems ✅
 
 //* Checks whether a square is valid and empty or not
 bool isEmptyAndWithinLimits(const vector<vector<int>> &board, int x, int y)
 {
     return (withinLimits(x, y)) && (board[x][y] == 0);
-}         //No problems ✅
+}
+// No problems ✅
 
 bool isGoalState(const vector<vector<int>> &board)
 {
     if ((board[0][0] == WHITE && board[0][1] == WHITE && board[0][2] == WHITE) && (board[3][0] == BLACK && board[3][1] == BLACK && board[3][2] == BLACK))
         return true;
     return false;
-}  //No problems ✅
+}
+// No problems ✅
 
-vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>>& board)
+vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &board)
 {
     vector<pair<int, int>> moves;
     vector<pair<int, int>> directions = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
@@ -152,11 +184,55 @@ vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>>& b
         int newY = y + dir.second;
         if (isEmptyAndWithinLimits(board, newX, newY))
             moves.push_back({newX, newY});
-
     }
     return moves;
-} //No problems ✅
+}
+// No problems ✅
 
+void generateNextState(State current, unordered_set<vector<vector<int>>, VectorVectorHash> visited, priority_queue<State> &pq)
+{
+    for (int i = 0; i < ROWS; ++i)
+    {
+        for (int j = 0; j < COLS; ++j)
+        {
+            if (current.board[i][j] != 0)
+            {
+                // Knight present at this position
+                // Generate knight moves
+                vector<pair<int, int>> moves = getKnightMoves(i, j, current.board);
+                // cout << "No of moves:" << moves.size() << endl;
+                for (const auto &move : moves)
+                {
+                    // Create a copy of the current board
+                    vector<vector<int>> nextBoard = current.board;
+
+                    // Move the knight
+                    swap(nextBoard[i][j], nextBoard[move.first][move.second]);
+                    // cout << "Current board: ";
+                    // printBoard(current.board);
+                    // cout << "Swapped board \n Next board: ";
+                    // printBoard(nextBoard);
+                    // Check if the next state has been visited
+                    if ((visited.find(nextBoard) == visited.end() && (current.moves + 1 <= 16)))
+                    {
+                        // Calculate heuristic for the next state
+                        int nextHeuristic = calculateHeuristic(nextBoard);
+
+                        // Create a copy of the path
+                        vector<State *> nextPath = current.path;
+                        nextPath.push_back(&current);
+
+                        // Push the next state to the priority queue
+                        pq.push(State(nextBoard, nextHeuristic, current.moves + 1, nextPath));
+
+                        // Mark the next state as visited
+                        visited.insert(nextBoard);
+                    }
+                }
+            }
+        }
+    }
+}
 // Best-First Search algorithm
 void bestFirstSearch(vector<vector<int>> &initialState)
 {
@@ -164,7 +240,7 @@ void bestFirstSearch(vector<vector<int>> &initialState)
     priority_queue<State> pq;
 
     // Initialize set to keep track of visited states
-    unordered_set<vector<vector<int>>, VectorVectorHash> visited({}); //return to hash for original code in second template variable
+    unordered_set<vector<vector<int>>, VectorVectorHash> visited({}); // return to hash for original code in second template variable
 
     // Calculate heuristic for initial state
     int initialHeuristic = calculateHeuristic(initialState);
@@ -192,43 +268,7 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         }
 
         // Generate next states
-        for (int i = 0; i < ROWS; ++i)
-        {
-            for (int j = 0; j < COLS; ++j)
-            {
-                if (current.board[i][j] != 0)
-                {
-                    // Knight present at this position
-                    // Generate knight moves
-                    vector<pair<int, int>> moves = getKnightMoves(i, j, current.board);
-                    for (const auto &move : moves)
-                    {
-                        // Create a copy of the current board
-                        vector<vector<int>> nextBoard = current.board;
-
-                        // Move the knight
-                        swap(nextBoard[i][j], nextBoard[move.first][move.second]);
-
-                        // Check if the next state has been visited
-                        if (visited.find(nextBoard) == visited.end() && current.moves + 1 <= 16)
-                        {
-                            // Calculate heuristic for the next state
-                            int nextHeuristic = calculateHeuristic(nextBoard);
-
-                            // Create a copy of the path
-                            vector<State *> nextPath = current.path;
-                            nextPath.push_back(&current);
-
-                            // Push the next state to the priority queue
-                            pq.push(State(nextBoard, nextHeuristic, current.moves + 1, nextPath));
-
-                            // Mark the next state as visited
-                            visited.insert(nextBoard);
-                        }
-                    }
-                }
-            }
-        }
+        generateNextState(current, visited, pq);
     }
 
     cout << "No solution found." << endl;
