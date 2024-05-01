@@ -41,11 +41,11 @@ public:
     vector<vector<int>> board;
     int cost = 0; // Cost of reaching this state
     // string path;               // Path to reach this state
-    int heuristic;        // Heuristic value for best-first search
-    int moves;            // Total number of moves
+    int heuristic; // Heuristic value for best-first search
+    int moves;     // Total number of moves
     // Path path; // Path leading to this state
     // Constructor
-    State(vector<vector<int>> _board, int _heuristic, int _moves) : board(_board), heuristic(_heuristic), moves(_moves){}
+    State(vector<vector<int>> _board, int _heuristic, int _moves) : board(_board), heuristic(_heuristic), moves(_moves) {}
 
     // Overload comparison operator for priority queue
     bool operator<(const State &other) const
@@ -59,10 +59,13 @@ public:
     //         printBoard(path[i]->board);
     //     }
     // }
-    bool isSameBoard (State otherState){
-        for(int i =0;i<ROWS;i++){
-            for(int j =0;j<COLS;j++){
-                if(board[i][j] != otherState.board[i][j])
+    bool isSameBoard(State otherState)
+    {
+        for (int i = 0; i < ROWS; i++)
+        {
+            for (int j = 0; j < COLS; j++)
+            {
+                if (board[i][j] != otherState.board[i][j])
                     return false;
             }
         }
@@ -90,24 +93,26 @@ public:
     }
     bool operator<(const Path &other) const
     {
-        return this->path[this->path.size()-1].heuristic > other.path[other.path.size()-1].heuristic;
+        return this->path[this->path.size() - 1].heuristic > other.path[other.path.size() - 1].heuristic;
     }
-    bool isSamePath(Path otherPath){
-        if(this->path.size() != otherPath.path.size())
+    bool isSamePath(Path otherPath)
+    {
+        if (this->path.size() != otherPath.path.size())
             return false;
-        for(int i =0;i<path.size();i++)
-            if(!this->path[i].isSameBoard(otherPath.path[i]))
+        for (int i = 0; i < path.size(); i++)
+            if (!this->path[i].isSameBoard(otherPath.path[i]))
                 return false;
         return true;
     }
-    bool hasDupeStates(State currentState){
-        for(int i =0;i<this->path.size();i++)
-            if(currentState.isSameBoard(this->path[i]))
+    bool hasDupeStates(State currentState)
+    {
+        for (int i = 0; i < this->path.size(); i++)
+            if (currentState.isSameBoard(this->path[i]))
                 return true;
         return false;
     }
 };
-int getIndex(vector<Path> &pqVector,Path desiredPath);
+int getIndex(vector<Path> &pqVector, Path desiredPath);
 
 int main()
 {
@@ -123,7 +128,6 @@ int main()
     pqVector.push_back(initialPath);
     cout<<getIndex(pqVector ,initialPath); */
     bestFirstSearch(initialState);
-    
 
     // std::vector<std::vector<int>> graph = {
     //     {5},
@@ -217,8 +221,7 @@ vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &b
 }
 // No problems ✅
 
-
-void generateNextState(State currentState, vector<Path> pqVector, priority_queue<Path> &pq,Path currentPath)
+void generateNextState(State currentState, vector<Path> pqVector, priority_queue<Path> &pq, Path currentPath)
 {
     for (int i = 0; i < ROWS; ++i)
     {
@@ -242,9 +245,7 @@ void generateNextState(State currentState, vector<Path> pqVector, priority_queue
                     cout << "Swapped board \n Next board: ";
                     printBoard(nextBoard);
                     // Check if the next state has been visited
-                    if ((currentState.moves + 1 <= 16) &&
-                    !currentPath.hasDupeStates(currentState)
-                    )
+                    if ((currentState.moves + 1 <= 16))
                     {
 
                         // Calculate heuristic for the next state
@@ -252,11 +253,15 @@ void generateNextState(State currentState, vector<Path> pqVector, priority_queue
 
                         // Create a copy of the path
                         Path nextPath = currentPath;
-                        nextPath.push(State(nextBoard, nextHeuristic, currentState.moves + 1));
-                        // Push the next state to the priority queue
-                        //condition checking
-                        pqVector.push_back(nextPath);
-                        pq.push(nextPath);
+                        State nextState = State(nextBoard, nextHeuristic, currentState.moves + 1);
+                        if (!currentPath.hasDupeStates(nextState))
+                        {
+                            nextPath.push(currentState);
+                            // Push the next state to the priority queue
+                            // condition checking
+                            pqVector.push_back(nextPath);
+                            pq.push(nextPath);
+                        }
 
                         // Mark the next state as visited
                         // visited.insert(nextBoard);
@@ -285,16 +290,16 @@ void bestFirstSearch(vector<vector<int>> &initialState)
     Path initialPath = Path(beginningState);
     pq.push(initialPath);
     pqVector.push_back(initialPath);
-    
+
     // Perform Best-First Search
     while (!pq.empty())
     {
         // Get the state with the lowest heuristic value
         Path currentPath = pq.top();
-        State currentState = currentPath.path[currentPath.path.size()-1];
+        State currentState = currentPath.path[currentPath.path.size() - 1];
         pq.pop();
-        int index = getIndex(pqVector,currentPath);
-        pqVector.erase(pqVector.begin()+index);
+        int index = getIndex(pqVector, currentPath);
+        pqVector.erase(pqVector.begin() + index);
         // Check if the current state is the goal state
         if (isGoalState(currentState.board))
         {
@@ -308,16 +313,17 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         }
 
         // Generate next states
-        generateNextState(currentState, pqVector, pq,currentPath);
+        generateNextState(currentState, pqVector, pq, currentPath);
     }
 
     cout << "No solution found." << endl;
 }
-int getIndex(vector<Path> &pqVector,Path desiredPath){
+int getIndex(vector<Path> &pqVector, Path desiredPath)
+{
     int index = -1;
-    for(int i =0;i<pqVector.size();i++)
-        if(pqVector[i].isSamePath(desiredPath))
-            index=i;
+    for (int i = 0; i < pqVector.size(); i++)
+        if (pqVector[i].isSamePath(desiredPath))
+            index = i;
     return index;
 }
 /* Graph
