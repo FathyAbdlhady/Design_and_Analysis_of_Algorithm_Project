@@ -6,10 +6,14 @@
 #include <queue>
 #include <bits/stdc++.h>
 using namespace std;
+
 #define COLS 3
 #define ROWS 4
 #define BLACK -1
 #define WHITE 1
+#define MAX_MOVES 17
+
+
 
 void printBoard(const vector<vector<int>> &board);
 int calculateHeuristic(const vector<vector<int>> &board);
@@ -39,13 +43,10 @@ class State
 {
 public:
     vector<vector<int>> board;
-    int cost = 0; // Cost of reaching this state
-    // string path;               // Path to reach this state
+    int cost = 0;  // Cost of reaching this state
     int heuristic; // Heuristic value for best-first search
-    int moves;     // Total number of moves
-    // Path path; // Path leading to this state
     // Constructor
-    State(vector<vector<int>> _board, int _heuristic, int _moves) : board(_board), heuristic(_heuristic), moves(_moves) {}
+    State(vector<vector<int>> _board, int _heuristic) : board(_board), heuristic(_heuristic) {}
 
     // Overload comparison operator for priority queue
     bool operator<(const State &other) const
@@ -111,6 +112,10 @@ public:
                 return true;
         return false;
     }
+    int length()
+    {
+        return this->path.size();
+    }
 };
 int getIndex(vector<Path> &pqVector, Path desiredPath);
 
@@ -162,26 +167,30 @@ void printBoard(const vector<vector<int>> &board)
 
 int calculateHeuristic(const vector<vector<int>> &board)
 {
-    // Calculate the number of misplaced knights
-    int misplacedKnights = 0;
+    int maxDistance = 0;
+    // Define the target positions for black and white knights
+    vector<pair<int, int>> targetPositions = {{0, 0}, {0, 1}, {0, 2}, {3, 0}, {3, 1}, {3, 2}};
+
+    // Iterate through the board to calculate heuristic for each knight
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
         {
-            if (board[i][j] != 0) // Ignore empty squares
+            int knightColor = board[i][j];
+            if (knightColor != 0)
             {
-                if ((i == 0 && board[i][j] == WHITE) || ((i == ROWS - 1) && board[i][j] == BLACK))
-                {
-                    continue;
-                }
-                else
-                {
-                    misplacedKnights++; // Count misplaced knights
-                }
+                // Find the target position for the current knight
+                pair<int, int> targetPosition = targetPositions[abs(knightColor) - 1];
+
+                // Calculate Manhattan distance
+                int distance = abs(i - targetPosition.first) + abs(j - targetPosition.second);
+
+                // Update the maximum distance if needed
+                maxDistance = max(maxDistance, distance);
             }
         }
     }
-    return misplacedKnights;
+    return maxDistance;
 }
 
 //* Function to check if the given coordinates are within the board limits
@@ -189,14 +198,14 @@ bool withinLimits(int x, int y)
 {
     return ((x >= 0 && y >= 0) && (x < ROWS && y < COLS));
 }
-// No problems ✅
+// No problems  
 
 //* Checks whether a square is valid and empty or not
 bool isEmptyAndWithinLimits(const vector<vector<int>> &board, int x, int y)
 {
     return (withinLimits(x, y)) && (board[x][y] == 0);
 }
-// No problems ✅
+// No problems  
 
 bool isGoalState(const vector<vector<int>> &board)
 {
@@ -204,7 +213,7 @@ bool isGoalState(const vector<vector<int>> &board)
         return true;
     return false;
 }
-// No problems ✅
+// No problems  
 
 vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &board)
 {
@@ -219,9 +228,9 @@ vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &b
     }
     return moves;
 }
-// No problems ✅
+// No problems  
 
-void generateNextState(State currentState, vector<Path> pqVector, priority_queue<Path> &pq, Path currentPath)
+void generateNextState(State currentState, vector<Path> &pqVector, priority_queue<Path> &pq, Path currentPath)
 {
     for (int i = 0; i < ROWS; ++i)
     {
@@ -240,23 +249,23 @@ void generateNextState(State currentState, vector<Path> pqVector, priority_queue
 
                     // Move the knight
                     swap(nextBoard[i][j], nextBoard[move.first][move.second]);
-                    cout << "Current board: ";
-                    printBoard(currentState.board);
-                    cout << "Swapped board \n Next board: ";
-                    printBoard(nextBoard);
-                    // Check if the next state has been visited
-                    if ((currentState.moves + 1 <= 16))
-                    {
 
+                    if ((currentPath.length() <= MAX_MOVES))
+                    {
                         // Calculate heuristic for the next state
                         int nextHeuristic = calculateHeuristic(nextBoard);
 
                         // Create a copy of the path
                         Path nextPath = currentPath;
-                        State nextState = State(nextBoard, nextHeuristic, currentState.moves + 1);
+                        State nextState = State(nextBoard, nextHeuristic);
                         if (!currentPath.hasDupeStates(nextState))
                         {
-                            nextPath.push(currentState);
+                            // cout << "Current board: ";
+                            // printBoard(currentState.board);
+                            // cout << "Swapped board \n Next board: ";
+                            // printBoard(nextBoard);
+                            // Check if the next state has been visited
+                            nextPath.push(nextState);
                             // Push the next state to the priority queue
                             // condition checking
                             pqVector.push_back(nextPath);
@@ -286,7 +295,7 @@ void bestFirstSearch(vector<vector<int>> &initialState)
     int initialHeuristic = calculateHeuristic(initialState);
 
     // Push initial path to priority queue
-    State beginningState = State(initialState, initialHeuristic, 0);
+    State beginningState = State(initialState, initialHeuristic);
     Path initialPath = Path(beginningState);
     pq.push(initialPath);
     pqVector.push_back(initialPath);
@@ -305,7 +314,7 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         {
             cout << "Solution found:" << endl;
             printBoard(currentState.board);
-            cout << "Total moves: " << currentState.moves << endl;
+            cout << "Total moves: " << currentPath.length() << endl;
             cout << "Path: ";
             currentPath.printPath();
             cout << endl;
@@ -313,6 +322,12 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         }
 
         // Generate next states
+        // cout << "\nGenerate States:\n"
+        //      << "Path Length:" << currentPath.length() << endl;
+        if (currentPath.length() > MAX_MOVES)
+        {
+            continue;
+        }
         generateNextState(currentState, pqVector, pq, currentPath);
     }
 
@@ -326,15 +341,3 @@ int getIndex(vector<Path> &pqVector, Path desiredPath)
             index = i;
     return index;
 }
-/* Graph
-0:{5}
-1:{6,8}
-2:{3}
-3:{8,10}
-4:{}
-5:{6,10}
-6:{1,11}
-7{}
-8:{1,9}
-9:{8}
-*/
