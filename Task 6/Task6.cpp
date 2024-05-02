@@ -12,7 +12,7 @@ using namespace std;
 #define ROWS 4
 #define BLACK -1
 #define WHITE 1
-#define MAX_MOVES 16 -1 
+#define MAX_MOVES 16 
 
 void printBoard(const vector<vector<int>> &board);
 int calculateHeuristic(const vector<vector<int>> &board);
