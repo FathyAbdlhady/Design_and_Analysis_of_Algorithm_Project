@@ -12,7 +12,7 @@ using namespace std;
 #define ROWS 4
 #define BLACK -1
 #define WHITE 1
-#define MAX_MOVES 16
+#define MAX_MOVES 16 -1 
 
 void printBoard(const vector<vector<int>> &board);
 int calculateHeuristic(const vector<vector<int>> &board);
@@ -76,6 +76,7 @@ class Path
 {
 public:
     vector<State> path;
+
     Path(State s)
     {
         this->path.push_back(s);
@@ -93,11 +94,12 @@ public:
     }
     bool operator<(const Path &other) const
     {
-        if (this->path.size() > MAX_MOVES)
-        {
-            return INT_MAX;
-        }
-        return this->path[this->path.size() - 1].heuristic > other.path[other.path.size() - 1].heuristic;
+        bool compare = this->path[this->path.size() - 1].heuristic > other.path[other.path.size() - 1].heuristic;
+        // if (this->path.size() >= MAX_MOVES)
+        // {
+        //     return !compare;
+        // }
+        return compare;
     }
     bool isSamePath(Path otherPath)
     {
@@ -127,10 +129,10 @@ int main()
     srand(time(0));
     vector<Path> pqVector;
     vector<vector<int>> initialState = {
-        {BLACK, BLACK, BLACK},
-        {0, 0, 0},
-        {0, 0, 0},
-        {WHITE, WHITE, WHITE}};
+        {BLACK, BLACK, 0},
+        {BLACK, 0, 0},
+        {0, 0, WHITE},
+        {0, WHITE, WHITE}};
     // vector<vector<int>> initialState = {
     //     {WHITE, WHITE, BLACK},
     //     {0, 0, 0},
@@ -144,9 +146,9 @@ int main()
     bestFirstSearch(initialState);
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = end - start;
-    auto minutes = std::chrono::duration_cast<std::chrono::minutes>(duration).count();
+    auto minutes = std::chrono::duration_cast<std::chrono::seconds>(duration).count();
 
-    std::cout << "\n\nExecution time: " << minutes << "minutes\n";
+    std::cout << "\n\nExecution time: " << minutes << " second\n";
     // cout<<(calculateHeuristic(initialState));
     // std::vector<std::vector<int>> graph = {
     //     {5},
@@ -177,6 +179,29 @@ void printBoard(const vector<vector<int>> &board)
         }
         cout << "}\n";
     }
+}
+
+bool isStuckKnight(int x, int y, const vector<vector<int>> &board)
+{
+    // Define all possible directions a knight can move
+    vector<pair<int, int>> directions = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
+
+    // Check each direction
+    for (const auto &dir : directions)
+    {
+        int newX = x + dir.first;
+        int newY = y + dir.second;
+
+        // Check if the new position is within the board limits and empty
+        if (isEmptyAndWithinLimits(board, newX, newY))
+        {
+            // At least one valid move is available
+            return false;
+        }
+    }
+
+    // No valid moves available
+    return true;
 }
 
 int calculateHeuristic(const vector<vector<int>> &board)
@@ -214,12 +239,15 @@ int calculateHeuristic(const vector<vector<int>> &board)
                     int dist = abs(i - goalPos.first) + abs(j - goalPos.second);
                     minDist = min(minDist, dist);
                 }
-                heuristic += minDist/3;
+                heuristic += minDist;
             }
         }
     }
-
-    return heuristic;
+    if (isGoalState(board))
+    {
+        heuristic = -1;
+    }
+    return heuristic / 3.0;
 }
 
 //* Function to check if the given coordinates are within the board limits
@@ -247,7 +275,7 @@ bool isGoalState(const vector<vector<int>> &board)
 vector<pair<int, int>> getKnightMoves(int x, int y, const vector<vector<int>> &board)
 {
     vector<pair<int, int>> moves;
-    vector<pair<int, int>> directions = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
+    vector<pair<int, int>> directions = {{1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {-1, 2}};
 
     for (auto &dir : directions)
     {
@@ -340,14 +368,15 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         int index = getIndex(pqVector, currentPath);
         // pqVector.erase(pqVector.begin() + index);
         // Check if the current state is the goal state
-        if (isGoalState(currentState.board) || currentState.heuristic==0)
+        if (isGoalState(currentState.board) || currentState.heuristic == -1)
         {
             cout << "\n\nSolution found:" << endl;
             printBoard(currentState.board);
-            cout << "Total moves: " << currentPath.length() << endl;
             cout << "Path: ";
             currentPath.printPath();
             cout << endl;
+            cout << "Total moves: " << currentPath.length() - 1 << endl;
+            cout << "Total paths: " << pq.size()  << endl;
             return;
         }
 
@@ -356,6 +385,8 @@ void bestFirstSearch(vector<vector<int>> &initialState)
         //      << "Path Length:" << currentPath.length() << endl;
         if (currentPath.length() <= MAX_MOVES)
             generateNextState(currentState, pqVector, pq, currentPath);
+        cout << "Total paths: " << pq.size()  << endl;
+        
     }
 
     cout << "No solution found." << endl;
