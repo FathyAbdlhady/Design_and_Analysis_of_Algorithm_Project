@@ -207,7 +207,7 @@ int calculateHeuristic(const vector<vector<int>> &board)
     }
     if (isGoalState(board))
     {
-        heuristic = -1;
+        return -1;
     }
     return heuristic / 3.0 + 3;
 }
