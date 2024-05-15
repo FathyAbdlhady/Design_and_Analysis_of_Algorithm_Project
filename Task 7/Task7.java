@@ -3,50 +3,63 @@ import java.util.Scanner;
 
 public class Task7 {
 
-    // Dynamic algorithm
-    public static int hittingAMovingTarget(int n, int currentSpot) {
-        // Base case: Only one spot left, target is guaranteed to be there
-        if (n == 1) {
-            return 0; // No shot needed
+    public static int getspot(int i,int j,int n){
+        if( i < 1 )
+        {
+            return j;
         }
-
-        // Initialize DP table for minimum shots needed from each spot
-        int[] dp = new int[n + 1];
-
-        // Improved initialization (consider target movement and edge cases)
-        for (int i = 1; i <= n; i++) {
-            if (i == 1 || i == n) {
-                // Edge cases (starting at first or last spot) - target might be on the other end in one shot
-                dp[i] = 1;
-            } else {
-                dp[i] = n; // Initialize with worst-case scenario (n shots) for other spots
-            }
+        else if(j > n)
+        {
+            return i;
         }
-
-        // Fill the DP table (iterative approach)
-        for (int i = n - 1; i >= 1; i--) {
-            // Minimum shots needed from current spot (consider target movement)
-            for (int j = i - 1; j <= i + 1 && j >= 1 && j <= n; j++) {
-                // Skip checking the current spot itself
-                if (j == i) {
-                    continue;
-                }
-
-                // Minimum shots needed from adjacent spot (considering target movement)
-                int nextShot = dp[j];
-
-                // One shot needed from this spot + minimum shots from adjacent spot
-                int adjustedShot = 1 + nextShot;
-
-                // Update dp[i] if reaching the target from adjacent spot takes fewer shots
-                dp[i] = Math.min(dp[i], adjustedShot);
-            }
+        else
+        {
+            Random rand = new Random();
+            int randomInt = (rand.nextInt(1000)) >= 499 ? i:j;
+            return randomInt;
         }
-
-        // Return the minimum number of shots needed from the current spot
-        return dp[currentSpot];
     }
+    // Dynamic algorithm
+    public static int hittingAMovingTarget(int n, int currentHidingSpot) {
+        
+        int[] dp = new int[n + 1];
+        
+        
+        for (int i = 1; i <= n; i++) {
+            dp[i] = 0;
+        }
 
+        int k = 1;
+        int count = n-1;
+        int shotspot = 2;
+        for (int i = 0; i < n+2; i++)
+        {
+            
+            if(count == 1)
+            {
+                dp[shotspot] += 1;
+                k = -1;
+                count = n-1;
+            }
+            else
+            {
+                dp[shotspot] = Math.max(dp[shotspot-1]+1, dp[shotspot+1]+1);
+            }
+            System.out.println("shot = " + shotspot + ", hiding spot = " + currentHidingSpot);
+            if(shotspot == currentHidingSpot)
+            {
+                break;
+            }
+            count--; 
+            currentHidingSpot =  getspot(currentHidingSpot-1, currentHidingSpot+1,n);
+            if(( (shotspot != 2) && (shotspot != n-1) ) || (count != 1))
+            {
+                shotspot += k;
+            }    
+        }
+       
+        return dp[currentHidingSpot];
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -57,11 +70,7 @@ public class Task7 {
         int currentHidingSpot = input.nextInt();
         input.close();
 
-        /*hittingAMovingTarget(n,currentHidingSpot);*/
-
-        
-        int minShots = hittingAMovingTarget(n,currentHidingSpot);
-        System.out.println("Maximum shots needed to guarantee hitting the target: " + minShots);
+        System.out.println("Maximum shots needed to guarantee hitting the target: " + hittingAMovingTarget(n,currentHidingSpot));
 
 
     }
