@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+
 
 public class Task8 {
 
@@ -45,6 +47,8 @@ public class Task8 {
 
         System.out.println("fake box is box number " + findFakeBox(boxes,digitalScaleReading,(realBoxWeight/50.0),(realBoxWeight-1.0)/50.0));
 
-
     }
 }
+
+
+
