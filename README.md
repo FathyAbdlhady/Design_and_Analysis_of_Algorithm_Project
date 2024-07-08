@@ -1,9 +1,6 @@
 # Design and Analysis of Algorithm Project 
-## Languages used
-- C/C++
-- Java
 
-## What is Required in every Task?
+## What is Required in every Task
 1. Problem description.
    
 2. Detailed assumptions.
@@ -66,7 +63,7 @@ Design a Dynamic Programing algorithm to turn off all the switches, which are in
 
 ##### known as: reve's puzzle
 
-###### It is a modified version of tower of hanoi problem. 
+###### It is a modified version of tower of hanoi problem 
 
 #### Problem 129 in Algorithmic Puzzles book
 
@@ -109,6 +106,10 @@ A computer game has a shooter and a moving target. The shooter can hit any of n 
 ## Task 8 
 ### brute force approach
 If you have 50 boxes that contains 50 pieces of metal all of the same known weight. one of these boxes contains fake metal pieces that weigh 1 kilogram less than the pieces in the rest of the boxes.You can use a digital scale only once to find this fake box.
+
+## Languages used
+- C/C++
+- Java
 
 
 # Team Members
