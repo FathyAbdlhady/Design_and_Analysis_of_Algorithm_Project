@@ -1,6 +1,6 @@
 # Design and Analysis of Algorithm Project 
-## Technologies used
-- C\C++
+## Languages used
+- C/C++
 - Java
 
 ## What is Required in every Task?
